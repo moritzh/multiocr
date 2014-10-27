@@ -1,5 +1,5 @@
 Gem::Specification.new do |s|
-  s.name        = 'textractor'
+  s.name        = 'multiocr'
   s.version     = '0.0.1'
   s.date        = '2014-10-27'
   s.summary     = "Fuzzy OCR using several tries"
