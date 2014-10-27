@@ -37,7 +37,7 @@ module MultiOCR
       words = e.words_for(image_data)
       raw_text = ""
       words.each {|w| 
-        if w.text && w.text.strip.length > 1
+        if w.text && w.text.strip.length > 1 && w.confidence > 50
           raw_text = raw_text + " " + w.text.strip 
           chunks = chunks + 1
           
