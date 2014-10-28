@@ -19,7 +19,9 @@ module MultiOCR
       e = Tesseract::Engine.new {|e|
         e.language  = :eng
       }
+      
       img = img.deskew
+      img = img.trim
       img = img.despeckle
       img = img.trim
       
@@ -48,8 +50,11 @@ module MultiOCR
       
       @text = raw_text
       
-      
-      average_confidence = confidence_sum / chunks
+      if chunks > 0
+        average_confidence = confidence_sum / chunks 
+      else
+        average_confidence = 0
+      end
       @average_confidence = average_confidence
       puts "Average confidence with threshold #{@threshold} is #{average_confidence}"
       # load tesseract and do the ocr 
