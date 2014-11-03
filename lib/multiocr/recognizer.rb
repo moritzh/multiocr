@@ -21,7 +21,6 @@ module MultiOCR
       
       local_img = self.img.deskew
       local_img = local_img.trim
-      local_img = local_img.blur_image(1)
 
       local_img = local_img.threshold (@threshold * Magick::QuantumRange)
       
