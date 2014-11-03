@@ -8,9 +8,20 @@ module MultiOCR
     def recognize(filename)
       best_confidence = 0
       text = ""
+      
+      img = Magick::ImageList.new(filename) do
+        self.density = 300
+        puts "Setting density."
+      end
+      
+      img = img[0]
+      
       1.upto(6) do |t|
-        r = Recognizer.new(filename, (2.5 + t) * 0.1)
         
+        
+        
+        r = Recognizer.new(filename, (2.5 + t) * 0.1)
+        r.img = img
         r.run
         
         if (r.average_confidence > best_confidence)

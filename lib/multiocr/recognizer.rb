@@ -2,34 +2,32 @@ require 'tempfile'
 
 module MultiOCR
   class Recognizer
-    attr_accessor :threshold, :lang, :file, :average_confidence, :text
+    attr_accessor :threshold, :lang, :file, :average_confidence, :text, :img
     def initialize(file, threshold = 0.6, lang = "eng")
       @threshold = threshold
       @lang = lang
       @average_confidence = 0
-      @file = file
       @text = ""
     end
     
     
     def run
-      img = Magick::ImageList.new(@file)
+  
       
-      puts "Loaded img."
+      puts "Loaded img, #{img.inspect}"
       e = Tesseract::Engine.new {|e|
         e.language  = :eng
       }
       
-      img = img.deskew
-      img = img.trim
-      img = img.despeckle
-      img = img.trim
-      
-      img = img.threshold (@threshold * Magick::QuantumRange)
+      local_img = self.img.deskew
+      local_img = local_img.trim
+      local_img = local_img.blur_image(1)
+
+      local_img = local_img.threshold (@threshold * Magick::QuantumRange)
       
       outfile = Tempfile.new(['ocr', '.jpg'])
       
-      img.write(outfile.path)
+      local_img.write(outfile.path)
       
       chunks = 0
       confidence_sum = 0.0
